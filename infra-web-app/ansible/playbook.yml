@@ -16,14 +16,3 @@
   become: yes
   roles:
     - db
-    
-- name: Set permissions for private key
-  hosts: all
-  become: yes
-  tasks:
-    - name: Set permissions on private key file
-      ansible.builtin.file:
-        path: /home/acmeadmin/.ssh/private_key.pem
-        owner: acmeadmin
-        group: acmeadmin
-        mode: '0600'
