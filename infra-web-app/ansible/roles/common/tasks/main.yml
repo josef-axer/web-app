@@ -1,0 +1,28 @@
+---
+- name: Ensure acmeuser exists
+  user:
+    name: acmeuser
+    password: "{{ 'aulapuc1234' | password_hash('sha512') }}"
+    state: present
+    shell: /bin/bash
+    create_home: yes
+
+- name: Install Datadog agent
+  apt:
+    name: datadog-agent
+    state: present
+    update_cache: yes
+
+- name: Configure Datadog API key
+  lineinfile:
+    path: /etc/datadog-agent/datadog.yaml
+    regexp: '^api_key:'
+    line: 'api_key: '
+    state: present
+  notify: Restart Datadog agent
+
+- name: Start and enable Datadog agent
+  service:
+    name: datadog-agent
+    state: started
+    enabled: yes

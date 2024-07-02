@@ -1,0 +1,20 @@
+---
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: Start and enable nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Create index.html
+  copy:
+    content: "{{ ansible_hostname }}"
+    dest: /var/www/html/index.html
+    owner: root
+    group: root
+    mode: '0644'

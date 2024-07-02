@@ -1,0 +1,29 @@
+---
+- name: Configure web and db servers
+  hosts: all
+  become: yes
+  roles:
+    - common
+
+- name: Configure web server
+  hosts: web
+  become: yes
+  roles:
+    - web
+
+- name: Configure db server
+  hosts: db
+  become: yes
+  roles:
+    - db
+    
+- name: Set permissions for private key
+  hosts: all
+  become: yes
+  tasks:
+    - name: Set permissions on private key file
+      ansible.builtin.file:
+        path: /home/acmeadmin/.ssh/private_key.pem
+        owner: acmeadmin
+        group: acmeadmin
+        mode: '0600'
