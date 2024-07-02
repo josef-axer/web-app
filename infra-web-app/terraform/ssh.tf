@@ -21,6 +21,7 @@ resource "azapi_resource_action" "ssh_public_key_gen" {
 resource "local_file" "private_key" {
   content  = azapi_resource_action.ssh_public_key_gen.output.privateKey
   filename = "${path.module}/private_key.pem"
+  file_permission = 0600
 }
 
 output "private_key_path" {
